@@ -34,11 +34,22 @@ def GetAllPledgeLevels(url) :
     return all_Pledgeds
 
 
+def GetLongesPledgeName(p_array) :
+    if p_array is None : return -1
+
+    res = len(p_array[0][0])
+    for pledge in p_array :
+        res = max(res,len(pledge[0]))
+
+    return res
+
+
 def PrintToConsole(projects):
     for p in projects :
         print(str(p[0]))
+        longestName= GetLongesPledgeName(p[1])
         for pledge in p[1] :
-            print("\t" + str(pledge[0]) + "\t" + str(pledge[1]))
+            print("\t" + str(pledge[0]).ljust(longestName) + "\t" + str(pledge[1]))
 
 
 
