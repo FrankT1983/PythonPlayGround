@@ -32,7 +32,7 @@ def GetAllPledgeLevels(url) :
         if not title is None :
             pledgeName = title.text.strip()
             pledgeLimit = ""
-            if not title is None:
+            if not limit is None:
                 pledgeLimit = limit.text.strip()
 
             all_Pledgeds.append([pledgeName,pledgeLimit])
@@ -45,6 +45,7 @@ def GetAllPledgeLevels(url) :
                 endTime = time.attrs["data-end_time"]
     format = "%Y-%m-%dT%H:%M:%S"
     withoutTimeZone =str(endTime).replace("-04:00","")
+    withoutTimeZone = withoutTimeZone.replace("-05:00", "")
     asDate = datetime.datetime.strptime(withoutTimeZone,format)
     delta = asDate  - datetime.datetime.now()   # not precise, time zones seem non trivial in python
 
@@ -68,6 +69,7 @@ def PrintToConsole(projects):
         longestName= GetLongesPledgeName(p[1])
         for pledge in p[1] :
             print("\t" + str(pledge[0]).ljust(longestName) + "\t" + str(pledge[1]))
+        print("\n")
 
 
 def PrintChecked(stdscr,y,x,text, attrb = None):
@@ -159,7 +161,8 @@ def RunOnceForTest():
 
 
 toWatch = [
-    ["CubiOne", "https://www.kickstarter.com/projects/99671519/cubibot-the-new-standard-of-modern-consumer-3d-pri"]
+    ["CubiOne", "https://www.kickstarter.com/projects/99671519/cubibot-the-new-standard-of-modern-consumer-3d-pri"],
+    ["Tsukuyumi", "https://www.kickstarter.com/projects/kingracoongames/tsukuyumi-full-moon-down-a-strategic-board-game"]
 ]
 
 
