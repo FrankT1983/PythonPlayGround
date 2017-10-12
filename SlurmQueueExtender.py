@@ -32,10 +32,6 @@ if ("create" in sys.argv) :
         json.dump(toExecute, outfile)
 
 
-
-
-
-
 if ("runJobs" in sys.argv) :
     print("Start Running Jobs")
     helper = SlurmCliHelper.SCH()

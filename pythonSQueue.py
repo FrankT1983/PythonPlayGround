@@ -5,7 +5,7 @@ import time
 import sys
 import curses
 
-
+import SlurmCliHelper
 ###
 #
 #   Small helper tool to visualize my running SLURM jobs

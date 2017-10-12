@@ -48,6 +48,8 @@ class Job:
         if not succsess:
             return
 
+        self.intNodeList = Job.parseNodeList(self.nodeList)
+
         self.valid = True
         return
 
@@ -75,6 +77,35 @@ class Job:
             else:
                 current += 1
         return -1, current, False
+
+    @staticmethod
+    def parseNodeList(text):
+        result = []
+        cur = text.replace("node", "").strip()
+        if (str(cur).startswith("[")):
+            # range
+            cur = cur.replace("[", "")
+            cur = cur.replace("]", "")
+            ranges = cur.split(",")
+            for r in range(0, len(ranges)):
+                parts = ranges[r].split("-")
+                if (len(parts) == 1):
+                    try:
+                        result.append(int(parts[0]))
+                    except:
+                        print("could convert" + str(parts))
+                else:
+                    if (len(parts) == 2):
+                        start = int(parts[0])
+                        end = int(parts[1])
+                        for p in range(start, end+1):
+                            result.append(p)
+                    else:
+                        print("could not get range " + str(cur))
+        else:
+            result.append(int(cur))
+
+        return result
 
 
 import re
