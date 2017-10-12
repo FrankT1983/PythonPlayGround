@@ -45,55 +45,54 @@ if ("runJobs" in sys.argv) :
 
     myJobsInQueue = []
 
-    while True :
-        print(str(datetime.datetime.now()) + " : ")
-        # check what is still running
-        if (len(myJobsInQueue) > 0 ):
-            jobString = helper.GetFullQueueInfo()
-            jobsInQueue = helper.GetJobIdsInQueue(jobString)
+    try:
+        while True :
+            # check what is still running
+            if (len(myJobsInQueue) > 0 ):
+                jobString = helper.GetFullQueueInfo()
+                jobsInQueue = helper.GetJobIdsInQueue(jobString)
 
-            stillInQueue = []
-            for job in myJobsInQueue :
-                if job in jobsInQueue :
-                    stillInQueue.append(job)
-            myJobsInQueue = stillInQueue
-            print(str(datetime.datetime.now()) + " : Still " + str(len(myJobsInQueue)) + " jobs in queue")
-        else :
-            #start next thing
-            startJob = None
-            for job in toExecute :
-                if job is None:
-                    continue
-                if len(job) <2 :
-                    continue
-                remaining = 0
-                try :
-                    remaining = int(job[1])
-                except:
-                    remaining = -1
-                if remaining <1 :
-                    continue
+                stillInQueue = []
+                for job in myJobsInQueue :
+                    if job in jobsInQueue :
+                        stillInQueue.append(job)
+                myJobsInQueue = stillInQueue
+                print(str(datetime.datetime.now()) + " : Still " + str(len(myJobsInQueue)) + " jobs in queue")
+            else :
+                #start next thing
+                startJob = None
+                for job in toExecute :
+                    if job is None:
+                        continue
+                    if len(job) <2 :
+                        continue
+                    remaining = 0
+                    try :
+                        remaining = int(job[1])
+                    except:
+                        remaining = -1
+                    if remaining <1 :
+                        continue
 
-                startJob = job
-                job[1] = remaining - 1
+                    startJob = job
+                    job[1] = remaining - 1
 
-                # update job file
-                with open(jobFile, 'w') as outfile:
-                    json.dump(toExecute, outfile)
-                break
+                    # update job file
+                    with open(jobFile, 'w') as outfile:
+                        json.dump(toExecute, outfile)
+                    break
 
-            if startJob is None :
-                print("Nothing left to do")
-                quit(0)
+                if startJob is None :
+                    print("Nothing left to do")
+                    quit(0)
 
-            print("Start new script " + startJob[0])
-            startedJobIds = helper.QueueJobs(startJob[0])
-            print("Started :" + str(startedJobIds))
+                print("Start new script " + startJob[0])
+                startedJobIds = helper.QueueJobs(startJob[0])
+                print("Started :" + str(startedJobIds))
 
-            for id in startedJobIds :
-                myJobsInQueue.append(id)
+                for id in startedJobIds :
+                    myJobsInQueue.append(id)
 
-        time.sleep(refreshInterval)
-
-
-    pass
+            time.sleep(refreshInterval)
+    except KeyboardInterrupt:
+        print("Quit")
