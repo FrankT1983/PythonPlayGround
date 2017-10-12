@@ -34,22 +34,6 @@ def out(text):
     sys.stdout.write(text)
     sys.stdout.flush()
 
-#try:#
-#    while True:
-#        fullOutput = subprocess.check_output(['squeue','--user=xo46rud'])
-#        outputLines = fullOutput.split("\n")
-#        header = outputLines[0]
-#
-#        if (len(outputLines) > 1):
-#            runningJobs = GetByStatus(outputLines, "R")
-#            pendingJobs = GetByStatus(outputLines, "PD")
-#            restart_line()
-#            out(str(time.ctime()) + " " +str(len(runningJobs)) + " Jobs Running " + str(len(pendingJobs)) + " Jobs Pending")
-#
-#        time.sleep(1)
-#except KeyboardInterrupt:
-#    pass
-
 def GetUsedNodes(input):
     seperated = input.split()
     filtered = []
@@ -58,29 +42,9 @@ def GetUsedNodes(input):
             filtered.append(seperated[i])
     numbers = []
     for i in range(0, len(filtered)):
-        cur = filtered[i].replace("node","")
-        if (str(cur).startswith("[")):
-            #range
-            cur = cur.replace("[", "")
-            cur = cur.replace("]", "")
-            ranges = cur.split(",")
-            for r in range(0,len(ranges)):
-                parts = ranges[r].split("-")
-                if (len(parts) == 1):
-                    try:
-                        numbers.append(int(parts[0]))
-                    except:
-                        print("could convert" + str(parts))
-                else :
-                    if (len(parts) == 2):
-                        start= int(parts[0])
-                        end = int(parts[1])
-                        for p in range(start,end):
-                            numbers.append(p)
-                    else:
-                        print("could not get range " + str(cur))
-        else :
-            numbers.append(int(cur))
+        nodesOfJob = SlurmCliHelper.Job.parseNodeList(filtered[i])
+        for n in nodesOfJob :
+            numbers.append(n)
     numbers.sort()
     return numbers
 
