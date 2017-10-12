@@ -16,7 +16,7 @@ import datetime
 
 # constants
 jobFile = "jobs.pickle"
-refreshInterval = 10
+refreshInterval = 60
 
 
 
@@ -95,4 +95,7 @@ if ("runJobs" in sys.argv) :
 
             time.sleep(refreshInterval)
     except KeyboardInterrupt:
-        print("Quit")
+        print("Quit, Jobs remaining in Queue :" + str(myJobsInQueue))
+        print("For deleting:")
+        for job in myJobsInQueue :
+            print("scancel " + str(job))
