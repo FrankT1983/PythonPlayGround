@@ -31,5 +31,9 @@ class TestJob(TestCase):
                 self.fail()
 
 
+    def test_parseNodeList_WaitStates(self):
+        nodes = Job.parseNodeList("  (Resources) ")
+        if not(len(nodes) == 0) :
+            self.fail()
 
 
