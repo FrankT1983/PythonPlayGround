@@ -36,8 +36,6 @@ if ("runJobs" in sys.argv) :
     print("Start Running Jobs")
     helper = SlurmCliHelper.SCH()
     toExecute = []
-    with open(jobFile) as infile:
-        toExecute = json.load(infile)
 
     myJobsInQueue = []
 
@@ -57,6 +55,11 @@ if ("runJobs" in sys.argv) :
             else :
                 #start next thing
                 startJob = None
+
+                toExecute = []
+                with open(jobFile) as infile:
+                    toExecute = json.load(infile)
+
                 for job in toExecute :
                     if job is None:
                         continue
