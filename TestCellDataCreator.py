@@ -106,8 +106,7 @@ file = open("fileList","w")
 file.close()
 print(str(datetime.datetime.now()))
 for x in range(start,start+images):
-    x_tmp = str(x)
-    filename = basepath + 'image' + x_tmp.zfill(5) + '.png'
+    filename = basepath + 'image' + str(x).zfill(5) + '.png'
     cellpath = basepath + 'SingleCellSquare2.png'
     cellCount = int(( (0.9946326 + 0.005373555*x - 0.000006169842*x*x + 2.23396e-9*x*x*x - 2.333781e-13*x*x*x*x)/7) *5000)  #12
     #cellCount = int(((0.9946326 + 0.005373555 * x - 0.000006169842 * x * x + 2.23396e-9 * x * x * x - 2.333781e-13 * x * x * x * x) / 7) * 3000)
