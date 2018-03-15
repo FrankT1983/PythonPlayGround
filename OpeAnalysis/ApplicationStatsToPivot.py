@@ -24,7 +24,7 @@ for i in keys:
     runtimeData = nodeData["RuntimeInMillis"]
     runtimeDataMin = runtimeData / (60*1000)
     res_mean, res_var, res_std = stats.bayes_mvs(runtimeDataMin, alpha=0.95)
-    result.append([i,res_mean[0],res_mean[1][0],res_mean[1][0]])
+    result.append([i,len(runtimeDataMin),res_mean[0],res_mean[1][0],res_mean[1][0]])
 
 
 
